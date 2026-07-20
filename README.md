@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=for-the-badge&logo=pandas"/>
   <img src="https://img.shields.io/badge/Scikit--Learn-ML-F7931E?style=for-the-badge&logo=scikitlearn"/>
-  <img src="https://img.shields.io/badge/XGBoost-Forecasting-FF6600?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/RandomForest-Forecasting-FF6600?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Tableau-Dashboard-E97627?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Streamlit-Web%20App-FF4B4B?style=for-the-badge&logo=streamlit"/>
 </p>
@@ -61,9 +61,9 @@ Designed as an end-to-end analytics platform, the project demonstrates how publi
 
 Models evaluated include:
 
+- Baseline 
 - Linear Regression
 - Random Forest Regressor
-- XGBoost Regressor
 
 ---
 
@@ -139,7 +139,7 @@ The platform will be deployed using Streamlit with:
 | Programming | Python |
 | Data Analysis | Pandas, NumPy |
 | Visualization | Matplotlib, Seaborn |
-| Machine Learning | Scikit-Learn, XGBoost |
+| Machine Learning | Scikit-Learn, Random Forest |
 | Forecasting | Regression Models |
 | Dashboard | Tableau |
 | Deployment | Streamlit |
