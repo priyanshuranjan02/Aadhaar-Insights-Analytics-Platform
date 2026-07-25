@@ -1,0 +1,4 @@
+Model,MAE,MSE,RMSE,MAPE,R2
+RandomForest,0.0,0.0,0.0,0.0,0.9878
+LinearRegression,0.0,0.0,0.0,0.01,0.8193
+Baseline,0.0,0.0,0.0,0.06,-0.0

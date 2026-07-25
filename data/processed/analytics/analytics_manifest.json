@@ -1,0 +1,318 @@
+{
+    "project": "Aadhaar Insights",
+    "version": "2.0",
+    "generated_at": "2026-07-25 16:36:22",
+    "datasets": {
+        "enrolment": {
+            "state_summary": {
+                "rows": 48,
+                "columns": 5,
+                "file": "state_summary.csv"
+            },
+            "district_summary": {
+                "rows": 964,
+                "columns": 4,
+                "file": "district_summary.csv"
+            },
+            "top_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "top_states.csv"
+            },
+            "bottom_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "bottom_states.csv"
+            },
+            "top_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "top_districts.csv"
+            },
+            "bottom_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "bottom_districts.csv"
+            },
+            "trend_date_year": {
+                "rows": 1,
+                "columns": 2,
+                "file": "trend_date_year.csv"
+            },
+            "trend_date_month": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month.csv"
+            },
+            "trend_date_month_name": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month_name.csv"
+            },
+            "trend_date_quarter": {
+                "rows": 4,
+                "columns": 2,
+                "file": "trend_date_quarter.csv"
+            },
+            "trend_date_week": {
+                "rows": 18,
+                "columns": 2,
+                "file": "trend_date_week.csv"
+            },
+            "trend_date_is_weekend": {
+                "rows": 2,
+                "columns": 2,
+                "file": "trend_date_is_weekend.csv"
+            },
+            "date_year_growth": {
+                "rows": 1,
+                "columns": 3,
+                "file": "date_year_growth.csv"
+            },
+            "date_month_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_growth.csv"
+            },
+            "date_month_name_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_name_growth.csv"
+            },
+            "date_quarter_growth": {
+                "rows": 4,
+                "columns": 3,
+                "file": "date_quarter_growth.csv"
+            },
+            "correlation": {
+                "rows": 13,
+                "columns": 13,
+                "file": "correlation.csv"
+            },
+            "forecast_month": {
+                "rows": 12,
+                "columns": 4,
+                "file": "forecast_month.csv"
+            },
+            "forecast_summary": {
+                "rows": 1,
+                "columns": 5,
+                "file": "forecast_summary.csv"
+            },
+            "anomalies": {
+                "rows": 184511,
+                "columns": 595,
+                "file": "anomalies.csv"
+            }
+        },
+        "demographic": {
+            "state_summary": {
+                "rows": 57,
+                "columns": 5,
+                "file": "state_summary.csv"
+            },
+            "district_summary": {
+                "rows": 960,
+                "columns": 4,
+                "file": "district_summary.csv"
+            },
+            "top_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "top_states.csv"
+            },
+            "bottom_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "bottom_states.csv"
+            },
+            "top_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "top_districts.csv"
+            },
+            "bottom_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "bottom_districts.csv"
+            },
+            "trend_date_year": {
+                "rows": 1,
+                "columns": 2,
+                "file": "trend_date_year.csv"
+            },
+            "trend_date_month": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month.csv"
+            },
+            "trend_date_month_name": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month_name.csv"
+            },
+            "trend_date_quarter": {
+                "rows": 4,
+                "columns": 2,
+                "file": "trend_date_quarter.csv"
+            },
+            "trend_date_week": {
+                "rows": 18,
+                "columns": 2,
+                "file": "trend_date_week.csv"
+            },
+            "trend_date_is_weekend": {
+                "rows": 2,
+                "columns": 2,
+                "file": "trend_date_is_weekend.csv"
+            },
+            "date_year_growth": {
+                "rows": 1,
+                "columns": 3,
+                "file": "date_year_growth.csv"
+            },
+            "date_month_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_growth.csv"
+            },
+            "date_month_name_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_name_growth.csv"
+            },
+            "date_quarter_growth": {
+                "rows": 4,
+                "columns": 3,
+                "file": "date_quarter_growth.csv"
+            },
+            "correlation": {
+                "rows": 12,
+                "columns": 12,
+                "file": "correlation.csv"
+            },
+            "forecast_month": {
+                "rows": 12,
+                "columns": 4,
+                "file": "forecast_month.csv"
+            },
+            "forecast_summary": {
+                "rows": 1,
+                "columns": 5,
+                "file": "forecast_summary.csv"
+            },
+            "anomalies": {
+                "rows": 349694,
+                "columns": 547,
+                "file": "anomalies.csv"
+            }
+        },
+        "biometric": {
+            "state_summary": {
+                "rows": 49,
+                "columns": 5,
+                "file": "state_summary.csv"
+            },
+            "district_summary": {
+                "rows": 949,
+                "columns": 4,
+                "file": "district_summary.csv"
+            },
+            "top_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "top_states.csv"
+            },
+            "bottom_states": {
+                "rows": 10,
+                "columns": 5,
+                "file": "bottom_states.csv"
+            },
+            "top_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "top_districts.csv"
+            },
+            "bottom_districts": {
+                "rows": 10,
+                "columns": 4,
+                "file": "bottom_districts.csv"
+            },
+            "trend_date_year": {
+                "rows": 1,
+                "columns": 2,
+                "file": "trend_date_year.csv"
+            },
+            "trend_date_month": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month.csv"
+            },
+            "trend_date_month_name": {
+                "rows": 12,
+                "columns": 2,
+                "file": "trend_date_month_name.csv"
+            },
+            "trend_date_quarter": {
+                "rows": 4,
+                "columns": 2,
+                "file": "trend_date_quarter.csv"
+            },
+            "trend_date_week": {
+                "rows": 18,
+                "columns": 2,
+                "file": "trend_date_week.csv"
+            },
+            "trend_date_is_weekend": {
+                "rows": 2,
+                "columns": 2,
+                "file": "trend_date_is_weekend.csv"
+            },
+            "date_year_growth": {
+                "rows": 1,
+                "columns": 3,
+                "file": "date_year_growth.csv"
+            },
+            "date_month_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_growth.csv"
+            },
+            "date_month_name_growth": {
+                "rows": 12,
+                "columns": 3,
+                "file": "date_month_name_growth.csv"
+            },
+            "date_quarter_growth": {
+                "rows": 4,
+                "columns": 3,
+                "file": "date_quarter_growth.csv"
+            },
+            "correlation": {
+                "rows": 12,
+                "columns": 12,
+                "file": "correlation.csv"
+            },
+            "forecast_month": {
+                "rows": 12,
+                "columns": 4,
+                "file": "forecast_month.csv"
+            },
+            "forecast_summary": {
+                "rows": 1,
+                "columns": 5,
+                "file": "forecast_summary.csv"
+            },
+            "anomalies": {
+                "rows": 425274,
+                "columns": 547,
+                "file": "anomalies.csv"
+            }
+        }
+    },
+    "statistics": {
+        "datasets": 3,
+        "files": 60,
+        "rows": 962936
+    }
+}

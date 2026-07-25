@@ -1,0 +1,4 @@
+total_records,total_columns,missing_values,duplicate_rows,numeric_columns,categorical_columns,unique_states,unique_districts,dataset
+609966,593,2278,0,587,6,48,964,enrolment
+1235917,545,2090,0,539,6,57,960,demographic
+1521973,545,2090,0,539,6,49,949,biometric

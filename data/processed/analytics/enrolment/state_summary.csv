@@ -1,0 +1,49 @@
+state,state_record_count,contribution_percent,state_rank,performance_score
+Uttar Pradesh,78698,12.9,1,100.0
+West Bengal,48310,7.92,2,61.39
+Tamil Nadu,48292,7.92,3,61.36
+Maharashtra,45000,7.38,4,57.18
+Bihar,44894,7.36,5,57.05
+Rajasthan,38074,6.24,6,48.38
+Karnataka,37229,6.1,7,47.31
+Madhya Pradesh,35837,5.88,8,45.54
+Andhra Pradesh,32140,5.27,9,40.84
+Gujarat,27947,4.58,10,35.51
+Telangana,23698,3.89,11,30.11
+Odisha,23610,3.87,12,30.0
+Assam,20863,3.42,13,26.51
+Kerala,20412,3.35,14,25.94
+Jharkhand,16024,2.63,15,20.36
+Chhattisgarh,11478,1.88,16,14.58
+Punjab,11268,1.85,17,14.32
+Haryana,8842,1.45,18,11.24
+Jammu And Kashmir,6677,1.09,19,8.48
+Uttarakhand,5541,0.91,20,7.04
+Delhi,4934,0.81,21,6.27
+Himachal Pradesh,4557,0.75,22,5.79
+Meghalaya,2871,0.47,23,3.65
+Tripura,2244,0.37,24,2.85
+Manipur,1966,0.32,25,2.5
+Orissa,1866,0.31,26,2.37
+Nagaland,1320,0.22,27,1.68
+Arunachal Pradesh,948,0.16,28,1.2
+Mizoram,878,0.14,29,1.12
+Goa,816,0.13,30,1.04
+Sikkim,616,0.1,31,0.78
+Puducherry,504,0.08,32,0.64
+Chandigarh,445,0.07,33,0.57
+Pondicherry,393,0.06,34,0.5
+Ladakh,175,0.03,35,0.22
+Andaman And Nicobar Islands,141,0.02,36,0.18
+Dadra And Nagar Haveli,94,0.02,37,0.12
+Jammu & Kashmir,94,0.02,37,0.12
+Lakshadweep,75,0.01,38,0.1
+Dadra And Nagar Haveli And Daman And Diu,60,0.01,39,0.08
+Andaman & Nicobar Islands,46,0.01,40,0.06
+Daman And Diu,37,0.01,41,0.05
+100000,14,0.0,42,0.02
+Dadra & Nagar Haveli,13,0.0,43,0.02
+Daman & Diu,10,0.0,44,0.01
+West Bangal,7,0.0,45,0.01
+Westbengal,6,0.0,46,0.01
+The Dadra And Nagar Haveli And Daman And Diu,2,0.0,47,0.0

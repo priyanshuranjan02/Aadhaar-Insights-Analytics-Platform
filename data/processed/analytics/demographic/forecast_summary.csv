@@ -1,0 +1,2 @@
+model,months,actual_total,predicted_total,average_prediction
+Random Forest,12,1235917,1235917,102993.08
