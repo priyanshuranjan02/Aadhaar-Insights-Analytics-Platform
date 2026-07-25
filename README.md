@@ -2,132 +2,222 @@
 
 # 🪪 Aadhaar Insights Analytics Platform
 
-### Unlocking Societal Trends through Advanced Data Analytics, Machine Learning & Interactive Business Intelligence
+### Transforming Aadhaar Public Data into Actionable Insights using Data Analytics, Machine Learning & Interactive Dashboards
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=for-the-badge&logo=pandas"/>
-  <img src="https://img.shields.io/badge/Scikit--Learn-ML-F7931E?style=for-the-badge&logo=scikitlearn"/>
-  <img src="https://img.shields.io/badge/RandomForest-Forecasting-FF6600?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Tableau-Dashboard-E97627?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Streamlit-Web%20App-FF4B4B?style=for-the-badge&logo=streamlit"/>
+
+![Python](https://img.shields.io/badge/Python-3.14.6-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-Interactive%20Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=for-the-badge&logo=pandas)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Visualization-3F4F75?style=for-the-badge&logo=plotly)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-F7931E?style=for-the-badge&logo=scikitlearn)
+![RandomForest](https://img.shields.io/badge/RandomForest-Forecasting-FF6600?style=for-the-badge)
+![Power%20BI](https://img.shields.io/badge/Power%20BI-Business%20Intelligence-F2C811?style=for-the-badge&logo=powerbi)
+
 </p>
 
-<p align="center">
-Building intelligent analytics for one of the world's largest identity ecosystems using data science, forecasting, and interactive visualization.
-</p>
+### 📊 Analyze • Forecast • Detect • Visualize • Recommend
+
+A complete end-to-end analytics platform built using **Python, Machine Learning, Streamlit, Plotly and Power BI** for analyzing India's Aadhaar enrolment and update datasets.
 
 </div>
 
 ---
 
-# 📖 Overview
+# 🌐 Live Demo
 
-The **Aadhaar Insights Analytics Platform** is a comprehensive data analytics solution developed to transform large-scale Aadhaar enrolment and update datasets into actionable insights.
+🚀 **Streamlit Application:** *Coming Soon*
 
-The platform combines:
-
-- 📊 Exploratory Data Analysis
-- 🤖 Machine Learning
-- 📈 Time-Series Forecasting
-- 🌍 Regional Analytics
-- 📉 Trend Visualization
-- 💡 Executive Recommendations
-- 📱 Interactive Dashboard
-- 🚀 Streamlit Deployment
-
-Designed as an end-to-end analytics platform, the project demonstrates how public datasets can be converted into meaningful insights for policymakers, researchers, and decision-makers.
+📊 **Power BI Dashboard:** `dashboard/powerbi/Aadhaar_Insights_Dashboard.pdf`
 
 ---
 
-# ✨ Key Features
+# 📌 Project Overview
 
-### 📊 Advanced Data Analytics
+The **Aadhaar Insights Analytics Platform** is an end-to-end analytics solution that transforms large-scale Aadhaar enrolment, demographic update, and biometric update datasets into meaningful insights through advanced analytics and interactive visualizations.
 
-- Comprehensive Exploratory Data Analysis
-- Missing Value Analysis
-- Statistical Summary
-- Trend Identification
-- Regional Comparisons
-- Distribution Analysis
+The platform integrates:
 
----
+- 📊 Interactive Business Analytics
+- 📈 Trend Analysis
+- 🤖 Machine Learning Forecasting
+- 🚨 Anomaly Detection
+- 📉 Correlation Analysis
+- 📍 Regional Insights
+- 💡 Automated Recommendation Engine
+- 🌐 Interactive Streamlit Dashboard
+- 📊 Power BI Executive Dashboard
 
-### 🤖 Machine Learning Forecasting
-
-- Future Aadhaar enrolment prediction
-- Future demographic update prediction
-- Future biometric update prediction
-
-Models evaluated include:
-
-- Baseline 
-- Linear Regression
-- Random Forest Regressor
+This project demonstrates how public-sector datasets can be transformed into actionable intelligence for researchers, policymakers, analysts, and decision-makers.
 
 ---
 
-### 📈 Business Intelligence Dashboard
+# ✨ Features
 
-Interactive dashboard providing:
+## 📊 Interactive Dashboard
 
 - Executive Overview
-- State-wise Analytics
-- District Insights
-- Forecast Trends
-- KPI Monitoring
-- Comparative Analysis
+- KPI Cards
+- Dynamic Filters
+- Interactive Plotly Charts
+- Multi-dataset Analysis
+- Responsive User Interface
 
 ---
 
-### 💡 Recommendation Engine
+## 📈 Trend Analysis
+
+- Year-wise Analysis
+- Monthly Trends
+- Quarterly Trends
+- Weekend vs Weekday Analysis
+- Regional Comparisons
+- Growth Visualization
+
+---
+
+## 🤖 Machine Learning
+
+Forecasting models implemented for:
+
+- Aadhaar Enrolment
+- Demographic Updates
+- Biometric Updates
+
+Models evaluated:
+
+- Baseline Model
+- Linear Regression
+- Random Forest Regressor
+- XGBoost Regressor
+
+---
+
+## 🚨 Anomaly Detection
+
+Automatically detects:
+
+- High-risk Regions
+- Statistical Outliers
+- Sudden Growth Spikes
+- Unusual Update Patterns
+- Severity Classification
+
+---
+
+## 📉 Correlation Analysis
+
+Provides statistical relationships between important Aadhaar attributes using correlation matrices and interactive visualizations.
+
+---
+
+## 📍 Regional Analytics
+
+- State Rankings
+- District Rankings
+- Top Performing States
+- Lowest Performing States
+- Geographic Insights
+
+---
+
+## 💡 Recommendation Engine
 
 Automatically generates:
 
-- Data-driven recommendations
-- Regional observations
-- Growth opportunities
-- Performance summaries
-- Strategic insights
+- Executive Summary
+- Data-driven Recommendations
+- Growth Opportunities
+- Performance Evaluation
+- Forecast Summary
+- Strategic Insights
 
 ---
 
-### 🌐 Interactive Web Application
+## 📊 Power BI Dashboard
 
-The platform will be deployed using Streamlit with:
+Interactive business intelligence dashboard including:
 
-- Interactive dashboards
-- Forecast visualization
-- Recommendation system
-- CSV upload
-- Dynamic filtering
+- Executive KPIs
+- State-wise Analysis
+- District Analytics
+- Geographic Visualizations
+- Trend Monitoring
+
+---
+
+# 🖥️ Streamlit Pages
+
+| Page | Description |
+|------|-------------|
+| 🏠 Home | Project overview and KPIs |
+| 📊 Dashboard | Executive analytics dashboard |
+| 📈 Trends | Trend analysis |
+| 📉 Growth | Growth analytics |
+| 🔗 Correlation | Correlation analysis |
+| 🚨 Anomalies | Outlier detection |
+| 🤖 Forecasting | Machine learning forecasts |
+| 💡 Recommendations | Automated recommendations |
+| ℹ️ About | Project information |
 
 ---
 
 # 🏗️ Project Architecture
 
+```text
+                Raw Aadhaar Datasets
+                        │
+                        ▼
+          Data Cleaning & Preprocessing
+                        │
+                        ▼
+             Feature Engineering
+                        │
+                        ▼
+               Analytics Engine
+      ┌─────────┬─────────┬─────────┐
+      ▼         ▼         ▼         ▼
+     EDA    Forecast   Anomaly   Correlation
+      │
+      ▼
+ Recommendation Engine
+      │
+      ▼
+ Interactive Streamlit Dashboard
+      │
+      ▼
+  Power BI Dashboard
 ```
-                   Raw Aadhaar Datasets
-                            │
-                            ▼
-               Data Cleaning & Preprocessing
-                            │
-                            ▼
-               Exploratory Data Analysis (EDA)
-                            │
-          ┌─────────────────┴─────────────────┐
-          ▼                                   ▼
-   Machine Learning                 Statistical Analytics
-          │                                   │
-          ▼                                   ▼
-  Forecast Generation                Executive Insights
-          │                                   │
-          └──────────────┬────────────────────┘
-                         ▼
-              Interactive Dashboard
-                         │
-                         ▼
-                 Streamlit Deployment
+
+---
+
+# 📂 Repository Structure
+
+```text
+Aadhaar-Insights-Analytics-Platform
+│
+├── app/
+│   ├── Home.py
+│   ├── pages/
+│   ├── assets/
+│   └── components/
+│
+├── src/
+│
+├── data/
+│   ├── processed/
+│   ├── analytics/
+│   └── forecasting/
+│
+├── dashboard/
+│   ├── powerbi/
+│   └── assets/
+│
+├── documentation/
+├── notebooks/
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
 ---
@@ -136,100 +226,134 @@ The platform will be deployed using Streamlit with:
 
 | Category | Technologies |
 |-----------|--------------|
-| Programming | Python |
+| Programming Language | Python |
+| Web Framework | Streamlit |
 | Data Analysis | Pandas, NumPy |
-| Visualization | Matplotlib, Seaborn |
-| Machine Learning | Scikit-Learn, Random Forest |
+| Data Visualization | Plotly, Matplotlib |
+| Machine Learning | Scikit-Learn, RandomForest |
 | Forecasting | Regression Models |
-| Dashboard | Tableau |
-| Deployment | Streamlit |
+| Business Intelligence | Power BI |
 | Version Control | Git & GitHub |
 
 ---
 
+# 📊 Analytics Performed
 
-# 📊 Project Workflow
+- Exploratory Data Analysis (EDA)
+- Executive Dashboard Analytics
+- Growth Analysis
+- Trend Analysis
+- Correlation Analysis
+- Forecasting
+- Anomaly Detection
+- Regional Analytics
+- Recommendation Generation
 
+---
+
+# 🚀 Getting Started
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/priyanshuranjan02/Aadhaar-Insights-Analytics-Platform.git
 ```
-Dataset Collection
-        │
-        ▼
-Data Cleaning
-        │
-        ▼
-Feature Engineering
-        │
-        ▼
-Exploratory Data Analysis
-        │
-        ▼
-Forecasting Models
-        │
-        ▼
-Analytics Engine
-        │
-        ▼
-Dashboard Generation
-        │
-        ▼
-Recommendation System
-        │
-        ▼
-Streamlit Deployment
+
+## Navigate to the Project
+
+```bash
+cd Aadhaar-Insights-Analytics-Platform
+```
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run the Application
+
+```bash
+streamlit run app/Home.py
 ```
 
 ---
 
-# 🚀 Results
+# 📷 Screenshots
 
-✔ Cleaned and analyzed large-scale Aadhaar datasets
+## Executive Dashboard
 
-✔ Built forecasting models for enrolment and update trends
+![Executive Dashboard](dashboard/assets/screenshots/executive_overview.png)
 
-✔ Generated executive analytics and regional insights
-
-✔ Designed an interactive dashboard for decision support
-
-✔ Developed an end-to-end analytics platform for public sector datasets
 
 ---
 
+## Demographic Analysis
+
+![Demographic Analysis](dashboard/assets/screenshots/demographic_analysis.png)
+
+---
+
+## Biometric Analysis
+
+![Biometric Analysis](dashboard/assets/screenshots/biometric_analysis.png)
+
+---
+
+## Overall Analytics
+
+![Overall Analytics](dashboard/assets/screenshots/overall_analytics.png)
+
+---
 
 # 🎯 Future Enhancements
 
-- Real-time dashboard updates
-- Automated report generation
-- AI-powered recommendation engine
-- Interactive geographical heatmaps
-- Cloud deployment
-- REST API integration
+- Real-time Aadhaar Analytics
+- AI-powered Recommendation Engine
+- Interactive Geospatial Heatmaps
+- REST API Integration
+- Automated Report Generation
+- Cloud Deployment
+- User Authentication & Role Management
 
 ---
 
 # 🤝 Contributing
 
-Contributions, suggestions and improvements are welcome.
+Contributions are welcome!
 
-Feel free to fork the repository and create a pull request.
+If you'd like to improve this project:
+
+1. Fork the repository.
+2. Create a new feature branch.
+3. Commit your changes.
+4. Push your branch.
+5. Open a Pull Request.
 
 ---
 
-# ⭐ If you found this project useful
+# ⭐ Support
 
-Please consider giving this repository a ⭐ on GitHub.
+If you found this project useful, please consider giving it a **⭐ Star** on GitHub.
 
-It helps motivate further development and supports open-source learning.
+Your support helps motivate future development and open-source contributions.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
 
 ---
 
 <div align="center">
 
-### 👨‍💻 Developed by
+## 👨‍💻 Developed by
 
-## **Priyanshu Ranjan**
+# Priyanshu Ranjan
 
-Aspiring Data Analyst | Business Analyst
+**Aspiring Data Analyst • Business Analyst • Machine Learning Enthusiast**
 
-*"Turning data into impactful decisions through AI and Analytics."*
+*"Turning public data into meaningful insights through AI, Analytics and Interactive Visualization."*
 
 </div>
