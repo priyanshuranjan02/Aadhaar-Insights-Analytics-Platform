@@ -6,14 +6,14 @@
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.14.6-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Interactive%20Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=for-the-badge&logo=pandas)
 ![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Visualization-3F4F75?style=for-the-badge&logo=plotly)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-F7931E?style=for-the-badge&logo=scikitlearn)
 ![RandomForest](https://img.shields.io/badge/RandomForest-Forecasting-FF6600?style=for-the-badge)
 ![Power%20BI](https://img.shields.io/badge/Power%20BI-Business%20Intelligence-F2C811?style=for-the-badge&logo=powerbi)
-
+![GitHub repo size](https://img.shields.io/github/repo-size/priyanshuranjan02/Aadhaar-Insights-Analytics-Platform?style=for-the-badge)
 </p>
 
 ### 📊 Analyze • Forecast • Detect • Visualize • Recommend
@@ -26,7 +26,7 @@ A complete end-to-end analytics platform built using **Python, Machine Learning,
 
 # 🌐 Live Demo
 
-🚀 **Streamlit Application:** *Coming Soon*
+🚀 **Streamlit Application:** [https://aadhaar-insights.streamlit.app/](https://aadhaar-insights.streamlit.app/)
 
 📊 **Power BI Dashboard:** `dashboard/powerbi/Aadhaar_Insights_Dashboard.pdf`
 
@@ -34,7 +34,7 @@ A complete end-to-end analytics platform built using **Python, Machine Learning,
 
 # 📌 Project Overview
 
-The **Aadhaar Insights Analytics Platform** is an end-to-end analytics solution that transforms large-scale Aadhaar enrolment, demographic update, and biometric update datasets into meaningful insights through advanced analytics and interactive visualizations.
+**Aadhaar Insights Analytics Platform** is an end-to-end analytics and visualization platform built using Python, Streamlit, Machine Learning, Plotly, and Power BI. The platform transforms India's public Aadhaar enrolment and update datasets into interactive dashboards, statistical insights, forecasting models, anomaly detection reports, and strategic recommendations for data-driven decision making.
 
 The platform integrates:
 
@@ -230,7 +230,7 @@ Aadhaar-Insights-Analytics-Platform
 | Web Framework | Streamlit |
 | Data Analysis | Pandas, NumPy |
 | Data Visualization | Plotly, Matplotlib |
-| Machine Learning | Scikit-Learn, RandomForest |
+| Machine Learning | Scikit-Learn, RandomForest, Linear Regression |
 | Forecasting | Regression Models |
 | Business Intelligence | Power BI |
 | Version Control | Git & GitHub |
@@ -315,6 +315,29 @@ streamlit run app/Home.py
 - Automated Report Generation
 - Cloud Deployment
 - User Authentication & Role Management
+
+---
+
+# 📈 Key Insights
+
+- Analysed millions of Aadhaar records
+- Identified regional enrolment trends
+- Forecasted future enrolment patterns
+- Detected statistical anomalies
+- Generated automated recommendations
+- Built interactive executive dashboards
+
+---
+
+# 📂 Dataset
+
+The project utilizes publicly available UIDAI Aadhaar datasets including:
+
+- Aadhaar Enrolment
+- Demographic Updates
+- Biometric Updates
+
+Source: https://uidai.gov.in/
 
 ---
 
