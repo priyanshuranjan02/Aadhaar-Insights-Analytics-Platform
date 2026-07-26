@@ -5,6 +5,14 @@ Forecasting
 Displays machine learning forecasting results generated during analytics.
 ===============================================================================
 """
+import os
+import sys
+
+sys.path.append(
+    os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../..")
+    )
+)
 
 from pathlib import Path
 
