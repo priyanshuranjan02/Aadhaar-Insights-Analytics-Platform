@@ -84,12 +84,12 @@ Forecasting models implemented for:
 - Demographic Updates
 - Biometric Updates
 
-Models evaluated:
-
-- Baseline Model
+**Models evaluated:**
+- Baseline Model (`DummyRegressor`)
 - Linear Regression
 - Random Forest Regressor
-- XGBoost Regressor
+
+*XGBoost was attempted but excluded from the final evaluation because of an import/runtime dependency issue.*
 
 ---
 
