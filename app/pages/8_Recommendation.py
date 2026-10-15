@@ -1,5 +1,10 @@
 import os
 import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import streamlit as st
 
 APP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
@@ -7,106 +12,218 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.insert(0, APP_DIR)
 sys.path.insert(0, ROOT_DIR)
 
-import streamlit as st
-import pandas as pd
-import numpy as np
+from src.data_loader import load_analysis, load_forecasting_results
 
-from src.data_loader import (
-    load_analysis,
-    load_forecasting_results
-)
 
 # ---------------------------------------------------------
-# PAGE CONFIG
+# PAGE CONFIGURATION
 # ---------------------------------------------------------
 
 st.set_page_config(
     page_title="Recommendations",
     page_icon="💡",
-    layout="wide"
+    layout="wide",
 )
 
 st.title("💡 AI Recommendations & Insights")
 st.markdown(
     """
-    Intelligent recommendations generated from data analytics,
-    trend analysis, anomaly detection and machine learning.
+    Data-driven recommendations based on dataset analysis, trend summaries,
+    anomaly detection, and the available model evaluation results.
     """
 )
 
-# ---------------------------------------------------------
-# SIDEBAR
-# ---------------------------------------------------------
+DATASETS = ["enrolment", "demographic", "biometric"]
 
 st.sidebar.header("Configuration")
+dataset = st.sidebar.selectbox("Select Dataset", DATASETS)
 
-dataset = st.sidebar.selectbox(
-    "Select Dataset",
-    [
-        "enrolment",
-        "demographic",
-        "biometric"
+
+# ---------------------------------------------------------
+# SAFE DATA LOADING
+# ---------------------------------------------------------
+
+def as_dataframe(value):
+    """Convert a supported value into a DataFrame safely."""
+    if isinstance(value, pd.DataFrame):
+        return value
+    if isinstance(value, dict):
+        try:
+            return pd.DataFrame(value)
+        except (TypeError, ValueError):
+            return pd.DataFrame()
+    return pd.DataFrame()
+
+
+def safe_count(value):
+    """Count records only when the supplied object supports counting."""
+    try:
+        return len(value) if value is not None else 0
+    except TypeError:
+        return 0
+
+
+def numeric_column(frame, column):
+    """Return a numeric Series or an empty Series."""
+    if column not in frame.columns:
+        return pd.Series(dtype=float)
+    return pd.to_numeric(frame[column], errors="coerce").dropna()
+
+
+try:
+    analysis = load_analysis(dataset) or {}
+    forecast_results = load_forecasting_results(dataset) or {}
+except Exception as exc:
+    st.error(f"Could not load analysis results for {dataset}: {exc}")
+    st.stop()
+
+if not isinstance(analysis, dict):
+    st.error("The analysis loader returned an unexpected data structure.")
+    st.stop()
+
+if not isinstance(forecast_results, dict):
+    st.error("The forecasting loader returned an unexpected data structure.")
+    st.stop()
+
+metrics_df = as_dataframe(forecast_results.get("metrics"))
+anomalies = analysis.get("anomalies", [])
+yearly_trend = as_dataframe(analysis.get("yearly_trend"))
+corr_matrix = as_dataframe(analysis.get("correlation"))
+
+anomaly_count = safe_count(anomalies)
+trend_points = len(yearly_trend)
+
+# Count unique correlated pairs, excluding the diagonal.
+strong_corr = 0
+if not corr_matrix.empty:
+    correlation_values = corr_matrix.apply(pd.to_numeric, errors="coerce")
+    valid_columns = [
+        col for col in correlation_values.columns
+        if col in correlation_values.index
     ]
-)
+    correlation_values = correlation_values.loc[
+        valid_columns, valid_columns
+    ]
+    matrix = correlation_values.to_numpy(dtype=float)
+
+    if matrix.size:
+        upper_triangle = matrix[np.triu_indices_from(matrix, k=1)]
+        strong_corr = int(
+            np.sum(np.isfinite(upper_triangle) & (np.abs(upper_triangle) > 0.7))
+        )
+
 
 # ---------------------------------------------------------
-# LOAD DATA
+# MODEL METRICS AND LIMITATIONS
 # ---------------------------------------------------------
 
-analysis = load_analysis(dataset)
-forecast = load_forecasting_results(dataset)
+required_metrics = {"Model", "R2", "MAE", "RMSE"}
+missing_metrics = required_metrics - set(metrics_df.columns)
+
+best_model = None
+r2 = np.nan
+mae = np.nan
+rmse = np.nan
+
+if not metrics_df.empty and not missing_metrics:
+    metrics_df = metrics_df.copy()
+
+    for column in ["R2", "MAE", "RMSE"]:
+        metrics_df[column] = pd.to_numeric(
+            metrics_df[column], errors="coerce"
+        )
+
+    usable_metrics = metrics_df.dropna(subset=["R2", "MAE", "RMSE"])
+
+    if not usable_metrics.empty:
+        # This selects the highest-R² row from the available metrics.
+        # It does not prove that the model is suitable for deployment.
+        best_model = usable_metrics.sort_values(
+            "R2", ascending=False
+        ).iloc[0]
+
+        r2 = float(best_model["R2"])
+        mae = float(best_model["MAE"])
+        rmse = float(best_model["RMSE"])
+
 
 # ---------------------------------------------------------
-# HEALTH METRICS
+# DATASET OVERVIEW
 # ---------------------------------------------------------
 
-metrics_df = forecast["metrics"]
-
-best_model = metrics_df.sort_values(
-    "R2",
-    ascending=False
-).iloc[0]
-
-# -----------------------------
-# Dynamic Health Score
-# -----------------------------
-
-r2 = float(best_model["R2"])
-mae = float(best_model["MAE"])
-rmse = float(best_model["RMSE"])
-
-health_score = (
-    r2 * 70
-    + max(0, 15 - mae * 10)
-    + max(0, 15 - rmse * 10)
-)
-
-health_score = max(0, min(100, round(health_score)))
-
-# ---------------------------------------------------------
-# KPI SECTION
-# ---------------------------------------------------------
-
-st.subheader("📊 Overall Dataset Health")
+st.subheader("📊 Dataset Overview")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric(
-        "Health Score",
-        f"{health_score}/100"
-    )
+    st.metric("Dataset", dataset.title())
 
 with col2:
-    st.metric(
-        "Best Model",
-        best_model["Model"]
-    )
+    st.metric("Anomalies Reported", f"{anomaly_count:,}")
 
 with col3:
-    st.metric(
-        "Best R² Score",
-        f"{best_model['R2']:.3f}"
+    st.metric("Trend Data Points", f"{trend_points:,}")
+
+st.caption(
+    "Anomaly counts and trend points describe the loaded analysis outputs. "
+    "They do not independently establish overall data quality."
+)
+
+st.divider()
+
+
+# ---------------------------------------------------------
+# MODEL EVALUATION
+# ---------------------------------------------------------
+
+st.subheader("🤖 Model Evaluation")
+
+if best_model is None:
+    st.warning(
+        "Usable model metrics are unavailable. Check that the forecasting "
+        "metrics file contains Model, R2, MAE, and RMSE columns with valid values."
+    )
+    st.info(
+        "Model-based recommendations are withheld until valid evaluation "
+        "results are available."
+    )
+else:
+    c1, c2, c3, c4 = st.columns(4)
+
+    with c1:
+        st.metric("Highest-R² Model", str(best_model["Model"]))
+
+    with c2:
+        st.metric("R²", f"{r2:.4f}")
+
+    with c3:
+        st.metric("MAE", f"{mae:,.2f}")
+
+    with c4:
+        st.metric("RMSE", f"{rmse:,.2f}")
+
+    if r2 < 0:
+        st.error(
+            "The selected model has a negative R² score on the supplied "
+            "evaluation results. It performs worse than predicting the "
+            "evaluation target's mean under the standard R² definition."
+        )
+    elif r2 < 0.3:
+        st.warning(
+            "The selected model's R² is low. Treat its predictions as "
+            "experimental and avoid relying on them for operational decisions."
+        )
+    else:
+        st.info(
+            "R² alone is not sufficient to establish forecasting reliability. "
+            "Review the evaluation design, baseline comparisons, and error sizes "
+            "before using predictions for planning."
+        )
+
+    st.dataframe(
+        metrics_df,
+        use_container_width=True,
+        hide_index=True,
     )
 
 st.divider()
@@ -118,43 +235,29 @@ st.divider()
 
 st.subheader("📋 Executive Summary")
 
-# -----------------------------
-# Real-time Dataset Statistics
-# -----------------------------
+summary_lines = [
+    f"**Dataset:** {dataset.title()}",
+    f"**Trend data points:** {trend_points:,}",
+    f"**Reported anomalies:** {anomaly_count:,}",
+    f"**Strong correlation pairs (|r| > 0.7):** {strong_corr:,}",
+]
 
-anomaly_count = len(analysis["anomalies"])
+if best_model is not None:
+    summary_lines.extend(
+        [
+            f"**Highest-R² model in loaded metrics:** {best_model['Model']}",
+            f"**R²:** {r2:.4f}",
+            f"**MAE:** {mae:,.2f}",
+            f"**RMSE:** {rmse:,.2f}",
+        ]
+    )
+else:
+    summary_lines.append("**Model evaluation:** unavailable or incomplete")
 
-corr_matrix = analysis["correlation"]
-
-strong_corr = (
-    (corr_matrix.abs() > 0.7).sum().sum()
-    - len(corr_matrix)
-) // 2
-
-trend_points = len(analysis["yearly_trend"])
-
-summary = f"""
-The **{dataset.title()}** dataset has been successfully analyzed using statistical,
-trend and machine learning techniques.
-
-### Key Highlights
-
-• Best Performing Model : **{best_model['Model']}**
-
-• Model Accuracy (R²) : **{best_model['R2']:.3f}**
-
-• Years Analysed : **{trend_points}**
-
-• Strong Feature Relationships : **{strong_corr}**
-
-• Total Anomalies Detected : **{anomaly_count}**
-
-• Dataset Health Score : **{health_score}/100**
-"""
-
-st.info(summary)
+st.info("\n\n".join(summary_lines))
 
 st.divider()
+
 
 # ---------------------------------------------------------
 # KEY FINDINGS
@@ -165,233 +268,148 @@ st.subheader("🔍 Key Findings")
 left, right = st.columns(2)
 
 with left:
+    st.markdown("### 📈 Trend Analysis")
+    if trend_points == 0:
+        st.info("No trend observations are available in the loaded analysis.")
+    else:
+        st.write(
+            f"The loaded trend output contains {trend_points:,} time periods. "
+            "Inspect the underlying values before concluding that growth is positive."
+        )
 
-    st.success("""
-### 📈 Growth Analysis
-
-- Positive growth trend observed.
-- Dataset is well structured.
-- No major inconsistencies detected.
-""")
-
-    st.success("""
-### 🔗 Correlation Analysis
-
-- Strong feature relationships identified.
-- Useful for predictive modelling.
-""")
+    st.markdown("### 🔗 Correlation Analysis")
+    if strong_corr:
+        st.write(
+            f"{strong_corr:,} unique feature pairs have an absolute correlation "
+            "greater than 0.7. Correlation does not establish causation."
+        )
+    else:
+        st.write(
+            "No strong feature pairs were identified in the available "
+            "correlation matrix, or the matrix is unavailable."
+        )
 
 with right:
-
-    st.warning("""
-### ⚠ Anomaly Detection
-
-- Few abnormal records detected.
-- Regular monitoring is recommended.
-""")
-
-    st.info("""
-### 🤖 Machine Learning
-
-- Random Forest provides the best prediction performance.
-- Model is suitable for forecasting future trends.
-""")
-
-st.divider()
-
-# ---------------------------------------------------------
-# AI GENERATED INSIGHTS
-# ---------------------------------------------------------
-
-st.subheader("🧠 AI Generated Insights")
-
-insights = []
-
-if health_score >= 90:
-    insights.append("Dataset quality is excellent for advanced analytics.")
-elif health_score >= 75:
-    insights.append("Dataset quality is good with minor improvement opportunities.")
-else:
-    insights.append("Dataset quality requires further cleaning.")
-
-if anomaly_count == 0:
-    insights.append("No anomalies were detected.")
-elif anomaly_count < 100:
-    insights.append(f"{anomaly_count} anomalies detected. Regular monitoring is recommended.")
-else:
-    insights.append(f"{anomaly_count} anomalies detected. Immediate investigation is recommended.")
-
-insights.append(
-    f"{best_model['Model']} achieved the highest prediction accuracy (R² = {best_model['R2']:.3f})."
-)
-
-insights.append(
-    f"{strong_corr} strong feature relationships were identified."
-)
-
-insights.append(
-    f"Trend analysis covers {trend_points} time periods."
-)
-
-for insight in insights:
-    st.markdown(f"✅ {insight}")
-
-st.divider()
-
-
-# ---------------------------------------------------------
-# BUSINESS RECOMMENDATIONS
-# ---------------------------------------------------------
-
-st.subheader("📈 Business Recommendations")
-
-high, medium, low = st.columns(3)
-
-with high:
-
-    if anomaly_count == 0:
-        st.success(f"""
-### 🟢 High Priority
-
-- No anomalies detected in the dataset.
-- Maintain the current data quality standards.
-- Continue regular data validation and monitoring.
-""")
-
-    elif anomaly_count <= 100:
-        st.warning(f"""
-### 🟡 High Priority
-
-- {anomaly_count} anomalous records detected.
-- Investigate abnormal records for potential inconsistencies.
-- Strengthen data quality checks in affected regions.
-""")
-
+    st.markdown("### ⚠ Anomaly Detection")
+    if anomaly_count:
+        st.write(
+            f"The analysis reports {anomaly_count:,} anomalous records. "
+            "Review them in context before deciding whether they represent "
+            "errors, unusual activity, or reporting issues."
+        )
     else:
-        st.error(f"""
-### 🔴 High Priority
+        st.write(
+            "No anomalies were reported by the loaded analysis. This does not "
+            "guarantee that the dataset is free from data-quality problems."
+        )
 
-- {anomaly_count} anomalous records detected.
-- Immediate investigation of abnormal records is recommended.
-- Improve data collection and validation processes.
-""")
-
-with medium:
-
-    if health_score >= 90:
-        st.success(f"""
-### 🟢 Medium Priority
-
-- Dataset quality is excellent ({health_score}/100).
-- Continue monitoring yearly growth trends.
-- Maintain existing analytical workflows.
-""")
-
-    elif health_score >= 75:
-        st.warning(f"""
-### 🟡 Medium Priority
-
-- Dataset quality is good ({health_score}/100).
-- Improve coverage in low-performing regions.
-- Monitor yearly growth and update trends regularly.
-""")
-
+    st.markdown("### 🤖 Forecasting")
+    if best_model is None:
+        st.write("Forecasting conclusions are unavailable without valid metrics.")
+    elif r2 < 0.3:
+        st.write(
+            "The available R² indicates limited predictive evidence. Treat "
+            "forecasts as experimental and compare them with simple baselines "
+            "before considering any operational use."
+        )
     else:
-        st.error(f"""
-### 🔴 Medium Priority
-
-- Dataset health score is {health_score}/100.
-- Improve data completeness and consistency.
-- Perform additional preprocessing before analysis.
-""")
-
-with low:
-
-    st.info(f"""
-### 🔵 Low Priority
-
-- Best performing model: **{best_model['Model']}**
-- Strong feature relationships identified: **{strong_corr}**
-- Retrain prediction models periodically with new data.
-- Expand analytics using future datasets and real-time updates.
-""")
-
-st.divider()
-
-# ---------------------------------------------------------
-# MACHINE LEARNING INSIGHTS
-# ---------------------------------------------------------
-
-st.subheader("🤖 Machine Learning Insights")
-
-c1, c2, c3, c4 = st.columns(4)
-
-with c1:
-    st.metric(
-        "Best Model",
-        best_model["Model"]
-    )
-
-with c2:
-    st.metric(
-        "R² Score",
-        f"{best_model['R2']:.3f}"
-    )
-
-with c3:
-    st.metric(
-        "MAE",
-        f"{best_model['MAE']:.4f}"
-    )
-
-with c4:
-    st.metric(
-        "RMSE",
-        f"{best_model['RMSE']:.4f}"
-    )
+        st.write(
+            "Review MAE, RMSE, baseline performance, and out-of-sample validation "
+            "before deciding whether the model is suitable for a specific use."
+        )
 
 st.divider()
 
 
 # ---------------------------------------------------------
-# ACTION PRIORITY MATRIX
+# DATA-DRIVEN RECOMMENDATIONS
 # ---------------------------------------------------------
 
-st.subheader("📋 Action Priority Matrix")
+st.subheader("📈 Recommended Actions")
 
-priority_df = pd.DataFrame(
+recommendations = []
+
+if anomaly_count > 0:
+    recommendations.append(
+        {
+            "Priority": "High",
+            "Recommendation": "Review reported anomalous records",
+            "Reason": f"The analysis reports {anomaly_count:,} anomalies.",
+            "Next step": "Inspect dates, regions, counts, and data provenance before changing data.",
+        }
+    )
+else:
+    recommendations.append(
+        {
+            "Priority": "Medium",
+            "Recommendation": "Maintain data-quality checks",
+            "Reason": "The loaded analysis reports no anomalies.",
+            "Next step": "Continue validation; do not treat zero detected anomalies as proof of perfect quality.",
+        }
+    )
+
+if trend_points == 0:
+    recommendations.append(
+        {
+            "Priority": "Medium",
+            "Recommendation": "Verify trend data availability",
+            "Reason": "No trend points were loaded.",
+            "Next step": "Check source dates, aggregation, and analysis outputs.",
+        }
+    )
+
+if best_model is None:
+    recommendations.append(
+        {
+            "Priority": "High",
+            "Recommendation": "Validate model evaluation outputs",
+            "Reason": "Usable model metrics are unavailable.",
+            "Next step": "Regenerate metrics and verify their columns and numeric values.",
+        }
+    )
+elif r2 < 0.3:
+    recommendations.append(
+        {
+            "Priority": "High",
+            "Recommendation": "Avoid relying on forecasts for operational decisions",
+            "Reason": f"The highest-R² available model has R² = {r2:.4f}.",
+            "Next step": "Compare against baselines and improve out-of-sample validation.",
+        }
+    )
+else:
+    recommendations.append(
+        {
+            "Priority": "Medium",
+            "Recommendation": "Validate forecast performance for the intended use",
+            "Reason": "A positive R² does not alone establish deployment readiness.",
+            "Next step": "Check baseline comparisons, temporal validation, and error magnitude.",
+        }
+    )
+
+if strong_corr > 0:
+    recommendations.append(
+        {
+            "Priority": "Low",
+            "Recommendation": "Investigate strong feature relationships",
+            "Reason": f"{strong_corr:,} pairs exceed the |r| > 0.7 threshold.",
+            "Next step": "Check domain meaning, redundant variables, and possible leakage.",
+        }
+    )
+
+recommendations.append(
     {
-        "Priority": [
-            "🔴 High",
-            "🔴 High",
-            "🟡 Medium",
-            "🟡 Medium",
-            "🟢 Low",
-            "🟢 Low"
-        ],
-        "Recommendation": [
-            "Investigate anomalous records",
-            "Improve low-performing regions",
-            "Increase demographic awareness",
-            "Monitor yearly growth",
-            "Retrain ML model periodically",
-            "Continue dashboard monitoring"
-        ],
-        "Expected Impact": [
-            "High",
-            "High",
-            "Medium",
-            "Medium",
-            "Low",
-            "Low"
-        ]
+        "Priority": "Medium",
+        "Recommendation": "Document data coverage and reporting gaps",
+        "Reason": "The interpretation of trends depends on the dates and coverage available.",
+        "Next step": "Record missing periods and investigate unusual reporting volumes without silently altering raw data.",
     }
 )
 
+recommendation_df = pd.DataFrame(recommendations)
 st.dataframe(
-    priority_df,
+    recommendation_df,
     use_container_width=True,
-    hide_index=True
+    hide_index=True,
 )
 
 st.divider()
@@ -406,35 +424,36 @@ st.subheader("🚀 Future Enhancements")
 future_df = pd.DataFrame(
     {
         "Enhancement": [
-            "Real-time Aadhaar Analytics",
-            "GIS Heatmap Visualization",
-            "Deep Learning Forecasting",
-            "AI Chat Assistant",
-            "Live API Integration",
-            "Automated Alerts",
-            "Cloud Deployment",
-            "Mobile Dashboard"
+            "Improved data-quality diagnostics",
+            "Regional coverage and reporting-gap analysis",
+            "Forecast baseline comparison",
+            "Temporal backtesting and model monitoring",
+            "GIS heatmap visualization",
+            "Automated anomaly alerts",
+            "Live API integration",
+            "Mobile dashboard",
         ],
         "Status": [
-            "Planned",
-            "Planned",
+            "Recommended",
+            "Recommended",
+            "In Progress / Experimental",
+            "Recommended",
             "Future Work",
             "Future Work",
             "Future Work",
             "Future Work",
-            "Future Work",
-            "Future Work"
-        ]
+        ],
     }
 )
 
 st.dataframe(
     future_df,
     use_container_width=True,
-    hide_index=True
+    hide_index=True,
 )
 
 st.divider()
+
 
 # ---------------------------------------------------------
 # PROJECT CONCLUSION
@@ -442,34 +461,21 @@ st.divider()
 
 st.subheader("📌 Conclusion")
 
-st.success(
+st.markdown(
     f"""
-The **{dataset.title()}** dataset has been successfully analyzed using
-statistical analysis, machine learning, forecasting and visualization
-techniques.
+The **{dataset.title()}** view presents the available outputs for data
+exploration, trend analysis, correlation analysis, anomaly detection, and
+model evaluation.
 
-This dashboard enables:
-
-✅ Data Exploration
-
-✅ Trend Analysis
-
-✅ Growth Monitoring
-
-✅ Correlation Analysis
-
-✅ Anomaly Detection
-
-✅ Machine Learning Forecasting
-
-✅ Business Recommendations
-
-Overall, the platform provides actionable insights that can support
-data-driven planning and decision making.
+These outputs can support further investigation and planning, but they do not
+automatically establish data completeness, causation, or forecasting reliability.
+Review reporting gaps and model performance before using results to guide
+operational decisions.
 """
 )
 
 st.divider()
+
 
 # ---------------------------------------------------------
 # DOWNLOAD REPORT
@@ -477,43 +483,51 @@ st.divider()
 
 st.subheader("📥 Download Recommendation Report")
 
-report = f"""
-AADHAAR INSIGHTS ANALYTICS PLATFORM
-Recommendation Report
+report_lines = [
+    "AADHAAR INSIGHTS ANALYTICS PLATFORM",
+    "Recommendation Report",
+    "",
+    f"Dataset: {dataset.title()}",
+    f"Trend data points: {trend_points}",
+    f"Reported anomalies: {anomaly_count}",
+    f"Strong correlation pairs (|r| > 0.7): {strong_corr}",
+    "",
+]
 
-Dataset : {dataset.title()}
+if best_model is not None:
+    report_lines.extend(
+        [
+            f"Highest-R² model in loaded metrics: {best_model['Model']}",
+            f"R²: {r2:.4f}",
+            f"MAE: {mae:.4f}",
+            f"RMSE: {rmse:.4f}",
+        ]
+    )
+else:
+    report_lines.append("Model metrics: unavailable or invalid")
 
-Overall Health Score : {health_score}/100
+report_lines.extend(
+    [
+        "",
+        "Recommendations:",
+        *[
+            f"{row['Priority']}: {row['Recommendation']} — {row['Next step']}"
+            for row in recommendations
+        ],
+        "",
+        "Note: Metrics describe the loaded evaluation outputs. They do not, by themselves, establish forecasting suitability.",
+        "",
+        "Generated by Aadhaar Insights Analytics Platform",
+    ]
+)
 
-Best Model : {best_model['Model']}
-
-R² Score : {best_model['R2']:.4f}
-
-MAE : {best_model['MAE']:.4f}
-
-RMSE : {best_model['RMSE']:.4f}
-
---------------------------------------------------
-
-Key Recommendations
-
-1. Continue monitoring dataset quality.
-2. Investigate anomalous records.
-3. Improve low-performing regions.
-4. Retrain ML models periodically.
-5. Expand analytics using real-time data.
-
---------------------------------------------------
-
-Generated by:
-Aadhaar Insights Analytics Platform
-"""
+report = "\n".join(report_lines)
 
 st.download_button(
     label="📄 Download Recommendation Report",
     data=report,
     file_name=f"{dataset}_recommendation_report.txt",
-    mime="text/plain"
+    mime="text/plain",
 )
 
-st.success("🎉 Recommendations generated successfully.")
+st.caption("Recommendations are based on the analysis outputs currently available.")

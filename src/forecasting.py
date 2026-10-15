@@ -657,61 +657,45 @@ from sklearn.metrics import (
 # Model Evaluation
 ###############################################################################
 
+
 def evaluate_model(
     model_name: str,
     actual,
     predicted,
 ):
     """
-    Evaluate a regression model.
+    Evaluate a regression model without prematurely rounding metrics.
+    Full-precision values are retained in the exported CSV files.
     """
 
-    mse = mean_squared_error(
-        actual,
-        predicted,
-    )
+    actual = np.asarray(actual, dtype=float).reshape(-1)
+    predicted = np.asarray(predicted, dtype=float).reshape(-1)
 
-    metrics = {
+    if actual.size == 0 or predicted.size == 0:
+        raise ValueError("Cannot evaluate empty actual or predicted values.")
 
+    if actual.shape != predicted.shape:
+        raise ValueError(
+            "Actual and predicted arrays must have the same shape."
+        )
+
+    if not np.isfinite(actual).all() or not np.isfinite(predicted).all():
+        raise ValueError(
+            "Actual and predicted values must contain only finite numbers."
+        )
+
+    mse = mean_squared_error(actual, predicted)
+
+    return {
         "Model": model_name,
-
-        "MAE": round(
-            mean_absolute_error(
-                actual,
-                predicted,
-            ),
-            4,
+        "MAE": float(mean_absolute_error(actual, predicted)),
+        "MSE": float(mse),
+        "RMSE": float(np.sqrt(mse)),
+        "MAPE": float(
+            mean_absolute_percentage_error(actual, predicted) * 100
         ),
-
-        "MSE": round(
-            mse,
-            4,
-        ),
-
-        "RMSE": round(
-            np.sqrt(mse),
-            4,
-        ),
-
-        "MAPE": round(
-            mean_absolute_percentage_error(
-                actual,
-                predicted,
-            ) * 100,
-            2,
-        ),
-
-        "R2": round(
-            r2_score(
-                actual,
-                predicted,
-            ),
-            4,
-        ),
-
+        "R2": float(r2_score(actual, predicted)),
     }
-
-    return metrics
 
 
 ###############################################################################

@@ -156,3 +156,8 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Experimental forecasting outputs (regenerate from scripts)
+data/processed/forecasting_clean/
+data/processed/forecasting_v2/
+data/processed/forecasting_v2_sensitivity/
