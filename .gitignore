@@ -46,6 +46,7 @@ ENV/
 .DS_Store
 .AppleDouble
 .LSOverride
+**/.DS_Store
 
 # =============================================================================
 # Windows
@@ -139,25 +140,42 @@ data/processed/analytics/**/anomalies.csv
 !requirements.txt
 !pyproject.toml
 
-
-.DS_Store
-**/.DS_Store
-
-# Model files
+# =============================================================================
+# Model Files
+# =============================================================================
 models/trained/
 models/artifacts/
 
-# Zip archives
+# =============================================================================
+# Zip Archives
+# =============================================================================
 *.zip
 
-# Python caches
-__pycache__/
-*.pyc
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Experimental forecasting outputs (regenerate from scripts)
+# =============================================================================
+# Experimental Forecasting Outputs
+# Ignore generated results by default, except standard V2 dashboard outputs.
+# =============================================================================
 data/processed/forecasting_clean/
-data/processed/forecasting_v2/
 data/processed/forecasting_v2_sensitivity/
+
+data/processed/forecasting_v2/*
+
+# Allow the standard V2 dataset directories
+!data/processed/forecasting_v2/enrolment/
+!data/processed/forecasting_v2/demographic/
+!data/processed/forecasting_v2/biometric/
+
+# Ignore all contents of the standard directories by default
+data/processed/forecasting_v2/enrolment/*
+data/processed/forecasting_v2/demographic/*
+data/processed/forecasting_v2/biometric/*
+
+# Allow only CSV outputs needed by the dashboard
+!data/processed/forecasting_v2/enrolment/*.csv
+!data/processed/forecasting_v2/demographic/*.csv
+!data/processed/forecasting_v2/biometric/*.csv
+
+# Always ignore macOS metadata, including inside allowed directories
+.DS_Store
+**/.DS_Store

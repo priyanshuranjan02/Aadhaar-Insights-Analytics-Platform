@@ -1,0 +1,4 @@
+Model,MAE,RMSE,R2,Train observations,Test observations,Evaluation,Selected by rolling backtest
+MeanBaseline,167117.92647058822,188254.98714451859,-0.0624532786694858,68,12,Final recursive 12-observation holdout,False
+LinearRegression,172159.75776415443,196630.6037568367,-0.159095143809177,68,12,Final recursive 12-observation holdout,True
+Persistence,213680.41666666666,255608.39485936947,-0.9586962283864517,68,12,Final recursive 12-observation holdout,False
